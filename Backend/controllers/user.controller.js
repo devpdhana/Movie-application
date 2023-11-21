@@ -69,7 +69,7 @@ const deleteUser = async(req,res,next)=>{
     }
 
     if(!user){
-        return res.status(400).json({message:"Unable to delete the user by this ID"})
+        return res.status(500).json({message:"Unable to delete the user by this ID"})
     }
     return res.status(200).json({message:"User deleted successfully"})
 }
@@ -94,7 +94,7 @@ const loginUser = async(req,res,next)=>{
 
     let isCorrectPassword = bcrypt.compareSync(password,existingUser.password)
     if(!isCorrectPassword){
-        return res.status(500).json({message:"Incorrecr password"})
+        return res.status(500).json({message:"Incorrect password"})
     }
 
     return res.status(200).json({message:"Logedin successfully"})
