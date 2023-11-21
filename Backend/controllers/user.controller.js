@@ -59,6 +59,22 @@ const updateUser = async(req,res,next) =>{
     return res.status(200).json({message:"Successfully updated",user})
 }
 
+const deleteUser = async(req,res,next)=>{
+    const id = req.params.id
+    let user;
+    try{
+        user = await User.findByIdAndDelete(id)
+    }catch(err){
+        console.log(err);
+    }
+
+    if(!user){
+        return res.status(400).json({message:"Unable to delete the user by this ID"})
+    }
+    return res.status(200).json({message:"User deleted successfully"})
+}
+
 exports.getAllusers = getAllusers
 exports.userSignup = userSignup
 exports.updateUser = updateUser
+exports.deleteUser = deleteUser
