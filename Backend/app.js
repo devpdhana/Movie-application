@@ -6,7 +6,7 @@ const PORT = 8080
 require('./models/db')
 //Middleware
 app.use(express.json())
-app.use('/',userRouter)
+app.use('/user',userRouter)
 
 app.listen(PORT,()=>{
     console.log(`Sever is running on ${PORT}`)
