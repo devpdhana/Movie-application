@@ -11,12 +11,20 @@ const movieSchema = new Schema({
         type:String,
         required:true
     },
+    posterUrl:{
+        type:String,
+        required:true
+    },
+    actors:[{
+        type:String,
+        required:true
+    }],
     releaseDate:{
         type:Date,
         required:true
     },
-    feature:{
-        type:boolean
+    featured:{
+        type:Boolean
     },
     admin:{
         type:String
