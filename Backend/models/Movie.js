@@ -22,7 +22,8 @@ const movieSchema = new Schema({
         type:String
     },
     bookings:[{
-        type:String
+        type:String,
+        required:true
     }]
 })
 
