@@ -11,7 +11,7 @@ const bookingSchema = Schema({
         type:Date,
         required:true
     },
-    seatnumber:{
+    seatNumber:{
         type:String,
         required:true
     },
@@ -22,5 +22,5 @@ const bookingSchema = Schema({
 })
 
 
-module.exports = mongoose.model("booking",bookingSchema)
+module.exports = mongoose.model("Booking",bookingSchema)
 //bookings
