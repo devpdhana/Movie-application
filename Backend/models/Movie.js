@@ -27,7 +27,9 @@ const movieSchema = new Schema({
         type:Boolean
     },
     admin:{
-        type:String
+        type:mongoose.Types.ObjectId,
+        ref:"Admin",
+        required:true
     },
     bookings:[{
         type:String,

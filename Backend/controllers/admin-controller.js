@@ -61,5 +61,21 @@ const adminLogin = async(req,res,next)=>{
 
 }
 
+const getAllAdmins = async(req,res,next)=>{
+    let admins;
+    try{
+        admins = await Admin.find()
+    }catch(err){
+        console.log(err)
+    }
+
+    if(!admins){
+        return res.status(500).json({message:"Internal server error"})
+    }
+
+    return res.status(200).json({admins})
+}
+
 exports.adminSignup = adminSignup
 exports.adminLogin = adminLogin
+exports.getAllAdmins = getAllAdmins
