@@ -55,5 +55,20 @@ const getAllmovies = async(req,res,next)=>{
     return res.status(200).json({movies})
 }
 
+const getMovieById = async(req,res,next)=>{
+    const id = req.params.id
+    let movie;
+    try{
+        movie = await Movie.findById(id)
+    }catch(err){
+        console.log(err)
+    }
+    if(!movie){
+        return res.status(404).json({message:"Movie not found"})
+    }
+    return res.status(200).json({movie})
+}
+
 exports.addMovie = addMovie
 exports.getAllmovies = getAllmovies
+exports.getMovieById = getMovieById
