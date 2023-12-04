@@ -46,6 +46,23 @@ const addBooking = async(req,res,next)=>{
     }
 
     return res.status(201).json({booking})
-} 
+}
+
+const getBookingById = async(req,res,next)=>{
+    const bookingId = req.params.id
+    let booking;
+    try{
+        booking = await Booking.findById(bookingId)
+    }catch(err){
+        console.log(err)
+    }
+
+    if(!bookingId){
+        return res.status(500).json({message:"Booking not found"})
+    }
+
+    return res.status(200).json({booking})
+}
 
 exports.addBooking = addBooking
+exports.getBookingById = getBookingById
