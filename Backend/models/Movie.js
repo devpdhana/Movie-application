@@ -32,7 +32,8 @@ const movieSchema = new Schema({
         required:true
     },
     bookings:[{
-        type:String,
+        type:mongoose.Types.ObjectId,
+        ref:"Booking",
         required:true
     }]
 })
