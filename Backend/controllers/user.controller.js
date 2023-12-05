@@ -99,9 +99,26 @@ const loginUser = async(req,res,next)=>{
     return res.status(200).json({message:"Logedin successfully"})
 }
 
+const getBookingsOfUser = async(req,res,next)=>{
+    const id = req.params.id
+    let bookings;
+    try{
+        bookings = await User.findById(id).populate("bookings")
+    }catch(err){
+        console.log(err)
+    }
+
+    if(!bookings){
+        return res.status(404).json({message:"No bookings found"})
+    }
+
+    return res.status(200).json({bookings})
+}
+
 
 exports.getAllusers = getAllusers
 exports.userSignup = userSignup
 exports.updateUser = updateUser
 exports.deleteUser = deleteUser
 exports.loginUser = loginUser
+exports.getBookingsOfUser = getBookingsOfUser
