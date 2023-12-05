@@ -1,3 +1,4 @@
+const Booking = require("../models/Booking");
 const User = require("../models/User")
 const bcrypt = require('bcryptjs')
 
@@ -103,7 +104,7 @@ const getBookingsOfUser = async(req,res,next)=>{
     const id = req.params.id
     let bookings;
     try{
-        bookings = await User.findById(id).populate("bookings")
+        bookings = await Booking.find({"user":id})
     }catch(err){
         console.log(err)
     }
