@@ -86,6 +86,23 @@ const deleteBooking = async(req,res,next)=>{
     return res.status(200).json({message:"Deleted successfully"})
 }
 
+
+const getAllBookings = async(req,res,next)=>{
+    let bookings;
+    try{
+        bookings = await Booking.find()
+    }catch(err){
+        console.log(err);
+    }
+
+    if(!bookings){
+        return res.status(500).json({message:"Bookings not found"})
+    }
+
+    return res.status(200).json({bookings})
+}
+
 exports.addBooking = addBooking
 exports.getBookingById = getBookingById
 exports.deleteBooking = deleteBooking
+exports.getAllBookings = getAllBookings

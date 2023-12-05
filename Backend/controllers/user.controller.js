@@ -2,7 +2,6 @@ const User = require("../models/User")
 const bcrypt = require('bcryptjs')
 
 const getAllusers = async(req,res,next)=>{
-    console.log("F called")
     let users;
     try{
         users = await User.find()
