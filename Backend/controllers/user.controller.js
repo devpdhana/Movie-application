@@ -1,6 +1,8 @@
 const Booking = require("../models/Booking");
 const User = require("../models/User")
 const bcrypt = require('bcryptjs')
+const nodeMailer = require('nodemailer')
+const Mailgenerator = require('mailgen')
 
 const getAllusers = async(req,res,next)=>{
     let users;
@@ -19,9 +21,11 @@ const getAllusers = async(req,res,next)=>{
 
 const userSignup = async(req,res,next)=>{
     const {name,email,password} = req.body
+    req.data = { name, email };
     if(name && name.trim() !== "" && email && email.trim() !== "" && password && password.trim() !== ""){
         const hashedPassword = bcrypt.hashSync(password)
         let user;
+
         try{
             user = new User({
                 name,email,password:hashedPassword
@@ -33,9 +37,62 @@ const userSignup = async(req,res,next)=>{
         if(!user){
             return res.status(500).json({message:"Something went wrong"})
         }
-        return res.status(201).json({user})
+        try {
+          let config = {
+            service: "gmail",
+            secure: false,
+            auth: {
+              user: "devpdhanasekar@gmail.com",
+              pass: "tlwrtcqiljmxessd",
+            },
+          };
+
+          const transporter = nodeMailer.createTransport(config);
+          const mailGenerator = new Mailgenerator({
+            theme: "default",
+            product: {
+              name: "Movie Booking Application",
+              link: "https://mailgen.js/",
+            },
+          });
+
+          const response = {
+            body: {
+              name,
+              intro: "Welcome to Movie Booking application",
+              data: "Thanks for joining with us",
+              outro: "Keep booking movie with us...",
+            },
+          };
+
+          let mail = mailGenerator.generate(response);
+
+          let message = {
+            from: {
+              name: "Dhana",
+              address: "devpdhanasekar@gmail.com",
+            },
+            to: email,
+            subject: "Successfully registerd with us",
+            html: mail,
+          };
+          await transporter.sendMail(message, (err) => {
+            if (err) {
+              console.log(err);
+              // return res.status(500).json({err})
+            }
+            console.log({ message: "Mail received" });
+            res.status(201).json({ user });
+          });
+
+        } catch (err) {
+          console.log(err);
+        }
     }
+    else {
     res.status(422).json({message:"Invalid inputs"})
+    }
+
 }
 
 const updateUser = async(req,res,next) =>{
@@ -75,7 +132,7 @@ const deleteUser = async(req,res,next)=>{
 }
 
 const loginUser = async(req,res,next)=>{
-    const {email,password} = req.body
+    const {email,password} = req.data
     if(!email && email.trim() == "" && !password && password.trim() === ""){
         return res.status(422).json({message:"Invalid inputs"})
     }
@@ -116,6 +173,60 @@ const getBookingsOfUser = async(req,res,next)=>{
     return res.status(200).json({bookings})
 }
 
+const sendEMail = async(name,email)=>{
+    console.log("sendmail called")
+    // const {name,email} = req.data
+
+    try{
+        let config = {
+      service: "gmail",
+      secure:false,
+      auth: {
+        user: "devpdhanasekar@gmail.com",
+        pass: "tlwrtcqiljmxessd",
+      },
+    };
+
+    const transporter = nodeMailer.createTransport(config);
+    const mailGenerator = new Mailgenerator({
+      theme: "default",
+      product: {
+        name: "Movie Booking Application",
+        link: "https://mailgen.js/",
+      },
+    });
+
+    const response = {
+      body: {
+        name,
+        intro: "Welcome to Movie Booking application",
+        data: "Thanks for joining with us",
+        outro: "Keep booking movie with us...",
+      },
+    };
+
+    let mail = mailGenerator.generate(response);
+
+    let message = {
+      from: {
+        name:"Dhana",
+        address:"devpdhanasekar@gmail.com"},
+      to: email,
+      subject: "Successfully registerd with us",
+      html: mail,
+    };
+    await transporter.sendMail(message, (err) => {
+      if (err) {
+        console.log(err);
+        // return res.status(500).json({err})
+      }
+      console.log({ message: "Mail received" });
+    });
+    }catch(err){
+        console.log(err)
+    }
+}
+
 
 exports.getAllusers = getAllusers
 exports.userSignup = userSignup
@@ -123,3 +234,4 @@ exports.updateUser = updateUser
 exports.deleteUser = deleteUser
 exports.loginUser = loginUser
 exports.getBookingsOfUser = getBookingsOfUser
+exports.sendMail = sendEMail
