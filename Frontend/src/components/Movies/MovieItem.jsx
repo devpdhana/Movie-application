@@ -30,7 +30,7 @@ const MovieItem = ({id, title, description, releaseDate,posterUrl}) => {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" sx={{ margin: "auto" }}>
+        <Button color='secondary' size="small"  sx={{ margin: "auto" }}>
           Book Now
         </Button>
       </CardActions>

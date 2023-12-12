@@ -1,6 +1,6 @@
 import { Box, Button, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import MovieItem from './MovieItem';
+import MovieItem from './Movies/MovieItem';
 import { getAllMovies } from '../api-helpers/api-helpers';
 import { Link } from 'react-router-dom';
 
@@ -19,7 +19,7 @@ const Home = () => {
         />
       </Box>
       <Box margin={"auto"} padding={2}>
-        <Typography variant='h4' textAlign={'center'}>Recently Released</Typography>
+        <Typography color={"secondary"} variant='h4' textAlign={'center'}>Recently Released</Typography>
       </Box>
       <Box margin={"auto"} alignItems={'center'} width={"100%"} display={"flex"} flexWrap={'wrap'} justifyContent={'center'}>
         {movies.slice(0,4).map((movie,index)=><MovieItem 
@@ -31,7 +31,7 @@ const Home = () => {
         key={index} />)}
       </Box>
       <Box display={'flex'} margin={"auto"} padding={2}>
-        <Button variant='outlined' LinkComponent={Link} to={"movies"} sx={{ margin:"auto"}}>View all movies</Button>
+        <Button color='secondary' variant='outlined' LinkComponent={Link} to={"movies"} sx={{ margin:"auto"}}>View all movies</Button>
       </Box>
     </Box>
   );
