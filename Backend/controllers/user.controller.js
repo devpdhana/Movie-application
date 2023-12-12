@@ -132,7 +132,7 @@ const deleteUser = async(req,res,next)=>{
 }
 
 const loginUser = async(req,res,next)=>{
-    const {email,password} = req.data
+    const {email,password} = req.body
     if(!email && email.trim() == "" && !password && password.trim() === ""){
         return res.status(422).json({message:"Invalid inputs"})
     }
