@@ -37,57 +37,59 @@ const userSignup = async(req,res,next)=>{
         if(!user){
             return res.status(500).json({message:"Something went wrong"})
         }
-        try {
-          let config = {
-            service: "gmail",
-            secure: false,
-            auth: {
-              user: "devpdhanasekar@gmail.com",
-              pass: "tlwrtcqiljmxessd",
-            },
-          };
+        res.status(201).json(user)
+        // try {
+        //   let config = {
+        //     service: "gmail",
+        //     secure: false,
+        //     auth: {
+        //       user: "devpdhanasekar@gmail.com",
+        //       pass: "tlwrtcqiljmxessd",
+        //     },
+        //   };
 
-          const transporter = nodeMailer.createTransport(config);
-          const mailGenerator = new Mailgenerator({
-            theme: "default",
-            product: {
-              name: "Movie Booking Application",
-              link: "https://mailgen.js/",
-            },
-          });
+        //   const transporter = nodeMailer.createTransport(config);
+        //   const mailGenerator = new Mailgenerator({
+        //     theme: "default",
+        //     product: {
+        //       name: "Movie Booking Application",
+        //       link: "https://mailgen.js/",
+        //     },
+        //   });
 
-          const response = {
-            body: {
-              name,
-              intro: "Welcome to Movie Booking application",
-              data: "Thanks for joining with us",
-              outro: "Keep booking movie with us...",
-            },
-          };
+        //   const response = {
+        //     body: {
+        //       name,
+        //       intro: "Welcome to Movie Booking application",
+        //       data: "Thanks for joining with us",
+        //       outro: "Keep booking movie with us...",
+        //     },
+        //   };
 
-          let mail = mailGenerator.generate(response);
+        //   let mail = mailGenerator.generate(response);
 
-          let message = {
-            from: {
-              name: "Dhana",
-              address: "devpdhanasekar@gmail.com",
-            },
-            to: email,
-            subject: "Successfully registerd with us",
-            html: mail,
-          };
-          await transporter.sendMail(message, (err) => {
-            if (err) {
-              console.log(err);
-              // return res.status(500).json({err})
-            }
-            console.log({ message: "Mail received" });
-            res.status(201).json({ user });
-          });
+        //   let message = {
+        //     from: {
+        //       name: "Dhana",
+        //       address: "devpdhanasekar@gmail.com",
+        //     },
+        //     to: email,
+        //     subject: "Successfully registerd with us",
+        //     html: mail,
+        //   };
+        //   await transporter.sendMail(message, (err) => {
+        //     if (err) {
+        //       console.log(err);
+        //       // return res.status(500).json({err})
+        //     }
+        //     console.log({ message: "Mail received" });
+        //     res.status(201).json({ user });
+        //   });
 
-        } catch (err) {
-          console.log(err);
-        }
+        // } catch (err) {
+        //   console.log(err);
+        // }
+
     }
     else {
     res.status(422).json({message:"Invalid inputs"})
@@ -154,7 +156,7 @@ const loginUser = async(req,res,next)=>{
         return res.status(500).json({message:"Incorrect password"})
     }
 
-    return res.status(200).json({message:"Logedin successfully"})
+    return res.status(200).json({id:existingUser._id,message:"Logedin successfully"})
 }
 
 const getBookingsOfUser = async(req,res,next)=>{
