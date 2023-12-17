@@ -26,7 +26,7 @@ export const sendUserAuthRequest = async(data,isSignup)=>{
 }
 
 export const sendAdminLoginRequest = async(data)=>{
-    const res = await axios.post(`admin/login`,{
+    const res = await axios.post(`/admin/login`,{
         email:data.email,
         password:data.password
     }).catch((err)=>console.log(err))
