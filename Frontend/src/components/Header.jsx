@@ -51,6 +51,19 @@ const Header = () => {
                 <Tab label="Auth" LinkComponent={Link} to="auth" />{" "}
               </>
             )}
+            {isUserloggedIn && (
+              <>
+                <Tab label="Profile" LinkComponent={Link} to="/user" />
+                <Tab label="Logout" LinkComponent={Link} to="/" />
+              </>
+            )}
+            {isAdminLoggedIn && (
+              <>
+                <Tab label="Profile" LinkComponent={Link} to="/user" />
+                <Tab label= "Add Movie" LinkComponent={Link} to="/addmovie"/>
+                <Tab label="Logout" LinkComponent={Link} to="/" />
+              </>
+            )}
           </Tabs>
         </Box>
       </Toolbar>
