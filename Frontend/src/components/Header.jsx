@@ -3,8 +3,10 @@ import {AppBar, Autocomplete, Box, Tab, Tabs, TextField, Toolbar} from '@mui/mat
 import MovieFilterIcon from "@mui/icons-material/MovieFilter";
 import {getAllMovies} from '../api-helpers/api-helpers'
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { adminAction, userAction } from '../store';
 const Header = () => {
+  const dispatch = useDispatch()
   const isUserloggedIn = useSelector((state)=>state.user.isLoggedin)
   const isAdminLoggedIn = useSelector((state)=>state.admin.isLoggedin)
   const [movies, setMovies] = useState([]);
@@ -15,6 +17,11 @@ const Header = () => {
       .then((data) => setMovies(data.movies))
       .catch((err) => console.log(err));
   }, []);
+
+  const handleLogout = (isAdmin)=>{
+    console.log("Function called")
+    dispatch(isAdmin?adminAction.logout():userAction.logout())
+  }
   return (
     <AppBar color="secondary" position="sticky">
       <Toolbar>
@@ -53,15 +60,29 @@ const Header = () => {
             )}
             {isUserloggedIn && (
               <>
-                <Tab label="Profile" LinkComponent={Link} to="/user"/>
-                <Tab label="Logout" LinkComponent={Link} to="/" />
+                <Tab label="Profile" LinkComponent={Link} to="/user" />
+                <Tab
+                  onClick={() => 
+                    handleLogout(false)
+                  }
+                  label="Logout"
+                  LinkComponent={Link}
+                  to="/"
+                />
               </>
             )}
             {isAdminLoggedIn && (
               <>
-                <Tab label="Profile" LinkComponent={Link} to="/user" />
-                <Tab label= "Add Movie" LinkComponent={Link} to="/addmovie"/>
-                <Tab label="Logout" LinkComponent={Link} to="/" />
+                <Tab label="Profile" LinkComponent={Link} to="/admin" />
+                <Tab label="Add Movie" LinkComponent={Link} to="/addmovie" />
+                <Tab
+                  onClick={() => 
+                    handleLogout(true)
+                  }
+                  label="Logout"
+                  LinkComponent={Link}
+                  to="/"
+                />
               </>
             )}
           </Tabs>

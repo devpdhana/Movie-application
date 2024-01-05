@@ -9,6 +9,10 @@ const userSlice = createSlice({
         },
         signup(state){
             state.isLoggedin = false
+        },
+        logout(state){
+            localStorage.removeItem("userId")
+            state.isLoggedin = false
         }
     }
 })
@@ -21,6 +25,12 @@ const adminSlice = createSlice({
             state.isLoggedin = true
         },
         signup(state){
+            state.isLoggedin = false
+        },
+        logout(state){
+            console.log("Called")
+            localStorage.removeItem("AdminId")
+            localStorage.removeItem("token")
             state.isLoggedin = false
         }
     }
